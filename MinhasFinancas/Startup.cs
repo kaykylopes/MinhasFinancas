@@ -12,6 +12,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using MinhasFinancas.Models;
 using MinhasFinancas.DAL;
+using Rotativa.AspNetCore;
 
 namespace MinhasFinancas
 {
@@ -57,6 +58,8 @@ namespace MinhasFinancas
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
+
+            RotativaConfiguration.Setup(env);
 
             app.UseMvc(routes =>
             {

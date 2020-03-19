@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MinhasFinancas.DAL;
 using MinhasFinancas.Models;
+using Rotativa.AspNetCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace MinhasFinancas.Controllers
@@ -16,22 +18,6 @@ namespace MinhasFinancas.Controllers
             _dal = dal;
         }
         
-        //public async Task<JsonResult> DespesaExiste(string nome)
-        //{
-        //    if (await _dal.DespesaExiste.)
-        //    {
-
-        //    }
-
-        //    return Json(true);
-        //}
-
-        //public async Task<JsonResult> DespesaExiste(string nome)
-        //{
-        //    if (await _dal.d)
-        //}
-
-
         // GET: Despesas
         public IActionResult Index(string criterio)
         {
@@ -42,6 +28,27 @@ namespace MinhasFinancas.Controllers
             }
             return View(lstDespesas);
         }
+
+        public IActionResult VisualizarCSV()
+        {
+            var lstDespesas = _dal.GetAllDespesas().ToList();
+            StringBuilder arquivo = new StringBuilder();
+            arquivo.AppendLine("ItemNome; Valor; DataDespesa;Categoria");
+
+            foreach (var item in lstDespesas)
+            {
+                arquivo.AppendLine(item.ItemNome + ";" + item.Valor + ";" + item.DataDespesa + ";" + item.Categoria);
+            }
+
+            return File(Encoding.ASCII.GetBytes(arquivo.ToString()), "text/csv", "despesas.csv");
+
+        }
+
+        public IActionResult VisualizarPDF()
+        {
+            return new ViewAsPdf("PDF", _dal.VisualizarPDF().ToList()) { FileName = "relatorio.pdf" };
+        }
+
         public ActionResult AddEditDespesa(int itemId)
         {
             RelatorioDespesa model = new RelatorioDespesa();

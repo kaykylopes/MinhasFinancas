@@ -16,16 +16,24 @@ namespace MinhasFinancas.DAL
             db = context;
         }
 
-        //public void DespesaExiste(string despesa)
-        //{
-        //    try
-        //    {
-        //        RelatorioDespesa despes = db.RelatorioDespesas.AnyAsync(d => d.ItemNome ==  despesa);
-        //        db.SaveChanges();
-        //    }
-        //    catch { throw; }
-        //}
+        
+         public IEnumerable<RelatorioDespesa> VisualizarCSV()
+        {
+            try
+            {
+                return db.RelatorioDespesas.ToList();
+            }
+            catch { throw; }
+        }
 
+        public IEnumerable<RelatorioDespesa> VisualizarPDF()
+        {
+            try
+            {
+                return db.RelatorioDespesas.ToList();
+            }
+            catch { throw; }
+        }
 
         public IEnumerable<RelatorioDespesa> GetAllDespesas()
         {
